@@ -1,0 +1,5 @@
+{
+  "name": "Copy of AI Market Scout",
+  "description": "An MVP dashboard that uses AI to generate and display the top 10 stocks with high growth potential. It features detailed analysis, a Gemini-powered chatbot for insights, and a 'Thinking Mode' for complex queries.",
+  "requestFramePermissions": []
+}
