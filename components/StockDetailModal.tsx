@@ -4,13 +4,19 @@ import { XMarkIcon } from './icons/XMarkIcon';
 import { ArrowTrendingUpIcon } from './icons/ArrowTrendingUpIcon';
 import { ShieldExclamationIcon } from './icons/ShieldExclamationIcon';
 import { mockBacktestData, mockPriceData, mockFeatureAttributionData } from '../constants';
-import type { Stock, BacktestEntry } from '../types';
+import type { Stock } from '../types';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 
 interface StockDetailModalProps {
   stock: Stock | null;
   onClose: () => void;
 }
+
+const riskColorMap = {
+    'Low': 'text-green-400',
+    'Medium': 'text-yellow-400',
+    'High': 'text-red-400',
+};
 
 const StockDetailModal: React.FC<StockDetailModalProps> = ({ stock, onClose }) => {
   if (!stock) return null;
@@ -32,13 +38,20 @@ const StockDetailModal: React.FC<StockDetailModalProps> = ({ stock, onClose }) =
 
         <div className="p-6 md:p-8">
             <div className="mb-6">
-                <h2 className="text-3xl font-bold text-white">{stock.name} ({stock.ticker})</h2>
+                <div className="flex items-baseline gap-4">
+                    <h2 className="text-3xl font-bold text-white">{stock.name} ({stock.ticker})</h2>
+                    <span className="text-sm text-gray-500">Last Updated: {stock.last_updated}</span>
+                </div>
                 <p className="text-gray-400">{stock.sector}</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 text-center">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8 text-center">
                 <div className="bg-gray-700/50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-400">Predicted Multiplier</p>
+                    <p className="text-sm text-gray-400">Rank</p>
+                    <p className="text-2xl font-semibold text-white">#{stock.rank}</p>
+                </div>
+                <div className="bg-gray-700/50 p-4 rounded-lg">
+                    <p className="text-sm text-gray-400">Multiplier</p>
                     <p className="text-2xl font-semibold text-green-400">{stock.predicted_multiplier}x</p>
                 </div>
                 <div className="bg-gray-700/50 p-4 rounded-lg">
@@ -47,11 +60,11 @@ const StockDetailModal: React.FC<StockDetailModalProps> = ({ stock, onClose }) =
                 </div>
                  <div className="bg-gray-700/50 p-4 rounded-lg">
                     <p className="text-sm text-gray-400">Horizon</p>
-                    <p className="text-2xl font-semibold text-white">{stock.horizon}</p>
+                    <p className="text-2xl font-semibold text-white">{stock.time_horizon_days}d</p>
                 </div>
                  <div className="bg-gray-700/50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-400">Market</p>
-                    <p className="text-2xl font-semibold text-white">{stock.market}</p>
+                    <p className="text-sm text-gray-400">Risk Level</p>
+                    <p className={`text-2xl font-semibold ${riskColorMap[stock.risk_level]}`}>{stock.risk_level}</p>
                 </div>
             </div>
 

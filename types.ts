@@ -1,14 +1,17 @@
 
 export interface Stock {
+  rank: number;
   ticker: string;
   name: string;
   predicted_multiplier: number;
   confidence: number;
-  horizon: string;
+  time_horizon_days: number;
   key_drivers: string[];
   risk_flags: string[];
-  market: string;
+  risk_level: 'Low' | 'Medium' | 'High';
   sector: string;
+  market: string;
+  last_updated: string;
 }
 
 export interface BacktestEntry {

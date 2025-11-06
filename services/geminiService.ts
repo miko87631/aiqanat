@@ -17,7 +17,7 @@ function getChatInstance(): Chat {
         chat = ai.chats.create({
             model: 'gemini-2.5-flash',
             config: {
-                systemInstruction: 'You are AI Market Scout\'s assistant, a helpful and friendly AI specializing in stock market analysis and financial concepts. Provide concise and accurate information. Do not give financial advice.',
+                systemInstruction: 'You are AI Market Explorer\'s assistant, a helpful and friendly AI specializing in stock market analysis and financial concepts. Provide concise and accurate information. Do not give financial advice.',
             },
         });
     }

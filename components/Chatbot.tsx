@@ -15,7 +15,7 @@ interface ChatbotProps {
 
 const Chatbot: React.FC<ChatbotProps> = ({ closeChat }) => {
     const [messages, setMessages] = useState<ChatMessage[]>([
-        { id: '1', role: 'model', text: 'Hello! I am the AI Market Scout assistant. How can I help you today? Ask me about market trends, specific stocks, or financial concepts.' }
+        { id: '1', role: 'model', text: 'Hello! I am the AI Market Explorer assistant. How can I help you today? Ask me about market trends, specific stocks, or financial concepts.' }
     ]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +44,35 @@ const Chatbot: React.FC<ChatbotProps> = ({ closeChat }) => {
 
         try {
             if (isThinkingMode) {
-                const thinkingPrompt = `Perform a deep analysis on the following query: "${input}". Provide a comprehensive and well-structured response.`;
+                const thinkingPrompt = `
+Generate a detailed market analysis report for the following query: "${input}".
+Your response should be well-structured, using Markdown for formatting (e.g., headings, bold text, bullet points).
+Please include the following sections in your report:
+
+### 1. Executive Summary
+- A concise overview of the company/asset and the key findings of your analysis.
+
+### 2. Historical Performance Analysis
+- Analyze key historical price trends, significant milestones, and periods of high volatility.
+- Discuss its performance relative to the broader market or key competitors.
+
+### 3. Fundamental Analysis
+- Evaluate the company's financial health (mentioning key metrics if possible, like revenue growth, profitability).
+- Assess its market position, competitive advantages (moat), and the industry landscape.
+
+### 4. Future Outlook & Growth Catalysts
+- Identify potential growth drivers, such as new products, market expansion, technological advancements, or strategic partnerships.
+- Provide a forward-looking perspective on its potential trajectory.
+
+### 5. Potential Risks & Mitigating Factors
+- Detail the primary risks (market, operational, regulatory, competitive).
+- Discuss any known strategies or factors that might mitigate these risks.
+
+### 6. Concluding Remarks
+- Summarize the overall investment thesis based on the analysis.
+
+Provide a comprehensive and insightful report based on publicly available information. Do not provide financial advice.
+`;
                 const responseText = await getDeepAnalysis(thinkingPrompt);
                  setMessages(prev => prev.map(m => m.id === modelMessageId ? { ...m, text: responseText } : m));
             } else {
